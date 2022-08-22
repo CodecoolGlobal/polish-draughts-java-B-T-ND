@@ -1,4 +1,12 @@
 package com.codecool.polishdraughts;
 
-public class Pawn {
+public class Pawn{
+    String color;
+    public Pawn(String color) {
+        this.color = color;
+    }
+
+    public String getColor() {
+        return color;
+    }
 }
