@@ -1,12 +1,12 @@
 package com.codecool.polishdraughts;
-import com.codecool.polishdraughts.Game;
+
+import java.util.Arrays;
 
 public class polishdraughts {
     public static void main(String[] args) {
         Game game = new Game();
-        game.getValidBoardSize();
-
-
-
+//        game.getValidBoardSize();
+        Board board = new Board(10);
+        System.out.println(Arrays.deepToString(board.Pawn));
     }
 }
