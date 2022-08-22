@@ -1,7 +1,12 @@
 package com.codecool.polishdraughts;
+import com.codecool.polishdraughts.Game;
 
 public class polishdraughts {
     public static void main(String[] args) {
-        System.out.println("Hello");
+        Game game = new Game();
+        game.getValidBoardSize();
+
+
+
     }
 }
