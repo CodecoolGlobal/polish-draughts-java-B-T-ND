@@ -12,4 +12,12 @@ public class Pawn{
     public String getColor() {
         return color;
     }
+
+    @Override
+    public String toString() {
+        return "Pawn{" +
+                "color='" + color + '\'' +
+                ", coordinates=" + coordinates +
+                '}';
+    }
 }
