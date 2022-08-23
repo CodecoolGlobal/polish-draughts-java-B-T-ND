@@ -71,4 +71,10 @@ public class Board {
         return boardToPrint.toString();
     }
 
+    public void movePawn(coordinatesPosition startPosition, coordinatesPosition endPosition){
+        Pawn currentPawn = fields[startPosition.x][startPosition.y];
+        currentPawn.coordinates = endPosition;
+        fields[endPosition.x][endPosition.y] = currentPawn;
+        removePawn(startPosition.x, startPosition.y);
+    }
 }
