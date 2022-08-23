@@ -32,6 +32,7 @@ public class Board {
 
     @Override
     public String toString() {
+        String osName = System.getProperty("os.name");
         String abc = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         // start board with 3 spaces
         StringBuilder boardToPrint = new StringBuilder("   ");
@@ -58,7 +59,11 @@ public class Board {
                     } else if (Objects.equals(fields[rowIndex][col].color, "white")) {
                         boardToPrint.append(translateBoardDict.get("white"));
                     }
-                    boardToPrint.append("  ");
+                    if (Objects.equals(osName, "Mac OS X")){
+                        boardToPrint.append(" ");
+                    }else {
+                        boardToPrint.append("  ");
+                    }
                 }
             }
             boardToPrint.append("\n");
