@@ -26,6 +26,10 @@ public class Board {
         translateBoardDict.put("white", "⚫");
     }
 
+    public void removePawn(int row, int col){
+        fields[row][col] = null;
+    }
+
     @Override
     public String toString() {
         String abc = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
