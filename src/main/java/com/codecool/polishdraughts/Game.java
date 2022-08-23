@@ -38,4 +38,15 @@ public class Game {
         }
         return "None";
     }
+
+    public boolean userInputValidation(String userInput, String abc, int boardLength){
+        if (userInput.matches("^[a-zA-Z]\\d+$")){
+            if (abc.indexOf(userInput.charAt(0)) < boardLength){
+                if (Integer.parseInt(userInput.substring(1)) <= boardLength){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }
