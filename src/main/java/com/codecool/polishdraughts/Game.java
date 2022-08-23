@@ -1,4 +1,5 @@
 package com.codecool.polishdraughts;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Game {
@@ -14,5 +15,27 @@ public class Game {
             System.out.println("Error! Board size must be between 10 and 20!");
         }
         return inputBoardSize;
+    }
+    public String checkForWinner(Pawn[][] fields){
+        int white=0;
+        int black=0;
+        for (int row=0; row<fields.length; row++){
+            for (int col=0; col< fields.length; col++){
+                if (fields[row][col] != null ){
+                    if (Objects.equals(fields[row][col].color, "white")){
+                        white++;
+                    }
+                    else {
+                        black++;
+                    }
+                }
+            }
+        }
+        if (white ==0){
+            return "Black";
+        } else if (black ==0) {
+            return "White";
+        }
+        return "None";
     }
 }
