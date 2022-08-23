@@ -1,19 +1,65 @@
 package com.codecool.polishdraughts;
 
+import java.util.Hashtable;
+import java.util.Objects;
+
 public class Board {
     Pawn[][] fields;
+
+    private final Hashtable<String, String> translateBoardDict;
 
     public Board(int n) {
         fields = new Pawn[n][n];
         int numberOfPawns = 2 * n;
         for (int x = 0; x < n; x++) {
             for (int y = 0; y < n; y++) {
-                if ((x + y) % 2 == 1 && numberOfPawns > 0){
+                if ((x + y) % 2 == 1 && numberOfPawns > 0) {
                     fields[x][y] = new Pawn("black", x, y);
                     fields[n - x - 1][n - y - 1] = new Pawn("white", n - x - 1, n - y - 1);
                     numberOfPawns--;
                 }
             }
         }
+        translateBoardDict = new Hashtable<>();
+        translateBoardDict.put("null", ".");
+        translateBoardDict.put("black", "⚪");
+        translateBoardDict.put("white", "⚫");
     }
+
+    @Override
+    public String toString() {
+        String abc = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        // start board with 3 spaces
+        StringBuilder boardToPrint = new StringBuilder("   ");
+
+        // build letters for the columns
+        for (int col = 0; col < fields.length; col++) {
+            boardToPrint.append(abc.charAt(col)).append("  ");
+        }
+        boardToPrint.append("\n");
+//         for loop build rows with their letters & change numbers 012 to .XO
+        for (int row = 1; row <= fields.length; row++) {
+            int rowIndex = row - 1;
+            if (row < 10) {
+                boardToPrint.append(row).append("  ");
+            } else {
+                boardToPrint.append(row).append(" ");
+            }
+            for (int col = 0; col < fields.length; col++) {
+                if (fields[rowIndex][col] == null) {
+                    boardToPrint.append(translateBoardDict.get("null")).append("  ");
+                } else {
+                    if (Objects.equals(fields[rowIndex][col].color, "black")) {
+                        boardToPrint.append(translateBoardDict.get("black"));
+                    } else if (Objects.equals(fields[rowIndex][col].color, "white")) {
+                        boardToPrint.append(translateBoardDict.get("white"));
+                    }
+                    boardToPrint.append("  ");
+                }
+            }
+            boardToPrint.append("\n");
+        }
+        return boardToPrint.toString();
+    }
+
 }
