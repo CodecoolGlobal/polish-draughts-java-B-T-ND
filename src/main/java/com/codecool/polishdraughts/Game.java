@@ -17,8 +17,11 @@ public class Game {
         return inputBoardSize;
     }
     public String checkForWinner(Pawn[][] fields){
+        int pawnsThatCanMove = 0;
         int white=0;
+        int whiteThatCanMove = 0;
         int black=0;
+        int blackThatCanMove = 0;
         for (int row=0; row<fields.length; row++){
             for (int col=0; col< fields.length; col++){
                 if (fields[row][col] != null ){
@@ -28,13 +31,24 @@ public class Game {
                     else {
                         black++;
                     }
+                    if (fields[row][col].canPawnMoveAnywhere(fields)) {
+                        pawnsThatCanMove++;
+                        if (Objects.equals(fields[row][col].color, "white")) {
+                            whiteThatCanMove++;
+                        } else {
+                            blackThatCanMove++;
+                        }
+                    }
                 }
             }
         }
+
         if (white ==0){
             return "Black";
         } else if (black ==0) {
             return "White";
+        } else if (pawnsThatCanMove == 0) {
+            return "Tie";
         }
         return "None";
     }
