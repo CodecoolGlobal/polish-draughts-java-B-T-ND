@@ -20,4 +20,16 @@ public class Pawn{
                 ", coordinates=" + coordinates +
                 '}';
     }
+
+    public boolean canPawnTakeAPiece(){
+        return true;
+    }
+
+    public boolean validatePawnMove(Pawn[][] fields, coordinatesPosition moveToPosition){
+        coordinatesPosition startingPosition = this.coordinates;
+        for (int run = 0; run < fields.length; run++) {
+
+        }
+        return true;
+    }
 }
