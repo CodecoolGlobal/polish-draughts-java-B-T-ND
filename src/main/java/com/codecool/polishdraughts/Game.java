@@ -127,6 +127,11 @@ public class Game {
         String currentPlayer = "white";
         while (true){
             playRound(currentPlayer);
+            if (currentPlayer.equals("white")){
+                currentPlayer = "black";
+            }else{
+                currentPlayer = "white";
+            }
         }
     }
 }
