@@ -17,11 +17,17 @@ public class Game {
     public int getValidBoardSize() {
         Scanner myVar = new Scanner(System.in);
         int inputBoardSize;
+        System.out.println("Please give a board size (between 10 and 20): ");
         while (true) {
-            System.out.println("Please give a board size (between 10 and 20): ");
-            inputBoardSize = Integer.parseInt(myVar.nextLine());
-            if (inputBoardSize >= 10 && inputBoardSize <= 20) {
-                break;
+            try {
+                inputBoardSize = Integer.parseInt(myVar.nextLine());
+                if (inputBoardSize >= 10 && inputBoardSize <= 20) {
+                    break;
+                }
+            }
+            catch (Exception e){
+                System.out.println("Please choose a NUMBER between 10 and 20!");
+                continue;
             }
             System.out.println("Error! Board size must be between 10 and 20!");
         }
@@ -90,8 +96,10 @@ public class Game {
             if (userInputValidation(userInput)) {
                 col = abc.indexOf(userInput.charAt(0));
                 row = Integer.parseInt(userInput.substring(1)) - 1;
-                if (Objects.equals(fields[row][col].color, currentPlayer) && fields[row][col].canPawnMoveAnywhere(fields)) {
-                    break;
+                if (fields[row][col] != null) {
+                    if (Objects.equals(fields[row][col].color, currentPlayer) && fields[row][col].canPawnMoveAnywhere(fields)) {
+                        break;
+                    }
                 }
             }
             System.out.println("Please choose a draught that's yours and can move!");
