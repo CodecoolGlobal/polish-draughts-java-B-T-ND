@@ -14,16 +14,16 @@ public class Board {
         for (int x = 0; x < n; x++) {
             for (int y = 0; y < n; y++) {
                 if ((x + y) % 2 == 1 && numberOfPawns > 0) {
-                    fields[x][y] = new Pawn("black", x, y);
-                    fields[n - x - 1][n - y - 1] = new Pawn("white", n - x - 1, n - y - 1);
+                    fields[x][y] = new Pawn("white", x, y);
+                    fields[n - x - 1][n - y - 1] = new Pawn("black", n - x - 1, n - y - 1);
                     numberOfPawns--;
                 }
             }
         }
         translateBoardDict = new Hashtable<>();
         translateBoardDict.put("null", ".");
-        translateBoardDict.put("black", "⚪");
-        translateBoardDict.put("white", "⚫");
+        translateBoardDict.put("black", "⚫");
+        translateBoardDict.put("white", "⚪");
     }
 
     public void removePawn(int row, int col){
@@ -72,6 +72,9 @@ public class Board {
     }
 
     public void movePawn(coordinatesPosition startPosition, coordinatesPosition endPosition){
+        if (Math.abs(startPosition.row - endPosition.row) == 2){
+            removePawn((startPosition.row + endPosition.row)/2,(startPosition.col+ endPosition.col)/2);
+        }
         Pawn currentPawn = fields[startPosition.row][startPosition.col];
         currentPawn.coordinates = endPosition;
         fields[endPosition.row][endPosition.col] = currentPawn;
