@@ -1,34 +1,39 @@
 package com.codecool.polishdraughts;
+
 import java.util.Objects;
 import java.util.Scanner;
 
 public class Game {
-    public int getValidBoardSize(){
+    String abc = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    int boardLength;
+
+    public int getValidBoardSize() {
         Scanner myVar = new Scanner(System.in);
         int inputBoardSize;
-        while (true){
+        while (true) {
             System.out.println("Please give a board size (between 10 and 20): ");
             inputBoardSize = Integer.parseInt(myVar.nextLine());
-            if (inputBoardSize>=10 && inputBoardSize<=20){
+            if (inputBoardSize >= 10 && inputBoardSize <= 20) {
                 break;
             }
             System.out.println("Error! Board size must be between 10 and 20!");
         }
+        boardLength = inputBoardSize;
         return inputBoardSize;
     }
-    public String checkForWinner(Pawn[][] fields){
+
+    public String checkForWinner(Pawn[][] fields) {
         int pawnsThatCanMove = 0;
-        int white=0;
+        int white = 0;
         int whiteThatCanMove = 0;
-        int black=0;
+        int black = 0;
         int blackThatCanMove = 0;
-        for (int row=0; row<fields.length; row++){
-            for (int col=0; col< fields.length; col++){
-                if (fields[row][col] != null ){
-                    if (Objects.equals(fields[row][col].color, "white")){
+        for (int row = 0; row < fields.length; row++) {
+            for (int col = 0; col < fields.length; col++) {
+                if (fields[row][col] != null) {
+                    if (Objects.equals(fields[row][col].color, "white")) {
                         white++;
-                    }
-                    else {
+                    } else {
                         black++;
                     }
                     if (fields[row][col].canPawnMoveAnywhere(fields)) {
@@ -43,24 +48,70 @@ public class Game {
             }
         }
 
-        if (white ==0){
-            return "Black";
-        } else if (black ==0) {
-            return "White";
+        if (white == 0) {
+            return "black";
+        } else if (black == 0) {
+            return "white";
         } else if (pawnsThatCanMove == 0) {
-            return "Tie";
+            return "tie";
         }
-        return "None";
+        return "none";
     }
 
-    public boolean userInputValidation(String userInput, String abc, int boardLength){
-        if (userInput.matches("^[a-zA-Z]\\d+$")){
-            if (abc.indexOf(userInput.charAt(0)) < boardLength){
-                if (Integer.parseInt(userInput.substring(1)) <= boardLength){
+    public boolean userInputValidation(String userInput) {
+        if (userInput.matches("^[a-zA-Z]\\d+$")) {
+            if (abc.indexOf(userInput.charAt(0)) < boardLength) {
+                if (Integer.parseInt(userInput.substring(1)) <= boardLength) {
                     return true;
                 }
             }
         }
         return false;
+    }
+
+    public void playRound(String currentPlayer, Board board) {
+        Pawn[][] fields = board.fields;
+        int row;
+        int col;
+        Scanner myVar = new Scanner(System.in);
+        System.out.println("It's " + currentPlayer + "'s turn! ");
+        String userInput;
+        while (true) {
+            System.out.println("Please choose a draught to move with: ");
+            userInput = myVar.nextLine().toUpperCase();
+            if (userInputValidation(userInput)) {
+                row = abc.indexOf(userInput.charAt(0));
+                col = Integer.parseInt(userInput.substring(1)) - 1;
+                if (Objects.equals(fields[row][col].color, currentPlayer) && fields[row][col].canPawnMoveAnywhere(fields)) {
+                    break;
+                }
+            }
+            System.out.println("Please choose a draught that's yours and can move!");
+        }
+        System.out.println("Selected pawn at: " + userInput);
+        while (true) {
+            System.out.println("Please choose where to move: ");
+            userInput = myVar.nextLine().toUpperCase();
+            coordinatesPosition moveToPosition = new coordinatesPosition(0, 0);
+            if (userInputValidation(userInput)) {
+                moveToPosition.x = abc.indexOf(userInput.charAt(0));
+                moveToPosition.y = Integer.parseInt(userInput.substring(1)) - 1;
+                if (fields[row][col].validatePawnMove(fields, moveToPosition)) {
+                    board.movePawn(new coordinatesPosition(row, col), moveToPosition);
+                    break;
+                }
+            }
+            System.out.println("Please choose a valid tile! ");
+        }
+        if (Objects.equals(checkForWinner(fields), "white")){
+            System.out.println("White won!");
+            System.exit(0);
+        } else if (Objects.equals(checkForWinner(fields), "black")){
+            System.out.println("Black won!");
+            System.exit(0);
+        } else if (Objects.equals(checkForWinner(fields), "tie")){
+            System.out.println("It's a tie!");
+            System.exit(0);
+        }
     }
 }
