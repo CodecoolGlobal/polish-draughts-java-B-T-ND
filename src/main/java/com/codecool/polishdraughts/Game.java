@@ -111,25 +111,25 @@ public class Game {
             }
             System.out.println("Please choose a valid tile! ");
         }
-        if (Objects.equals(checkForWinner(fields), "white")){
+        if (Objects.equals(checkForWinner(fields), "white")) {
             System.out.println("White won!");
             System.exit(0);
-        } else if (Objects.equals(checkForWinner(fields), "black")){
+        } else if (Objects.equals(checkForWinner(fields), "black")) {
             System.out.println("Black won!");
             System.exit(0);
-        } else if (Objects.equals(checkForWinner(fields), "tie")){
+        } else if (Objects.equals(checkForWinner(fields), "tie")) {
             System.out.println("It's a tie!");
             System.exit(0);
         }
     }
 
-    public void start(){
+    public void start() {
         String currentPlayer = "white";
-        while (true){
+        while (true) {
             playRound(currentPlayer);
-            if (currentPlayer.equals("white")){
+            if (currentPlayer.equals("white")) {
                 currentPlayer = "black";
-            }else{
+            } else {
                 currentPlayer = "white";
             }
         }

@@ -14,19 +14,25 @@ public class Board {
         for (int x = 0; x < n; x++) {
             for (int y = 0; y < n; y++) {
                 if ((x + y) % 2 == 1 && numberOfPawns > 0) {
-                    fields[x][y] = new Pawn("white", x, y);
-                    fields[n - x - 1][n - y - 1] = new Pawn("black", n - x - 1, n - y - 1);
+                    fields[x][y] = new Pawn("black", x, y);
+                    fields[n - x - 1][n - y - 1] = new Pawn("white", n - x - 1, n - y - 1);
                     numberOfPawns--;
                 }
             }
         }
         translateBoardDict = new Hashtable<>();
-        translateBoardDict.put("null", ".");
-        translateBoardDict.put("black", "⚫");
-        translateBoardDict.put("white", "⚪");
+        if (System.getProperty("os.name").equals("Mac OS X")) {
+            translateBoardDict.put("null", ".");
+            translateBoardDict.put("black", "⚫");
+            translateBoardDict.put("white", "⚪");
+        } else {
+            translateBoardDict.put("null", ".");
+            translateBoardDict.put("black", "⚪");
+            translateBoardDict.put("white", "⚫");
+        }
     }
 
-    public void removePawn(int row, int col){
+    public void removePawn(int row, int col) {
         fields[row][col] = null;
     }
 
@@ -59,9 +65,9 @@ public class Board {
                     } else if (Objects.equals(fields[rowIndex][col].color, "white")) {
                         boardToPrint.append(translateBoardDict.get("white"));
                     }
-                    if (Objects.equals(osName, "Mac OS X")){
+                    if (Objects.equals(osName, "Mac OS X")) {
                         boardToPrint.append(" ");
-                    }else {
+                    } else {
                         boardToPrint.append("  ");
                     }
                 }
@@ -71,9 +77,9 @@ public class Board {
         return boardToPrint.toString();
     }
 
-    public void movePawn(coordinatesPosition startPosition, coordinatesPosition endPosition){
-        if (Math.abs(startPosition.row - endPosition.row) == 2){
-            removePawn((startPosition.row + endPosition.row)/2,(startPosition.col+ endPosition.col)/2);
+    public void movePawn(coordinatesPosition startPosition, coordinatesPosition endPosition) {
+        if (Math.abs(startPosition.row - endPosition.row) == 2) {
+            removePawn((startPosition.row + endPosition.row) / 2, (startPosition.col + endPosition.col) / 2);
         }
         Pawn currentPawn = fields[startPosition.row][startPosition.col];
         currentPawn.coordinates = endPosition;
