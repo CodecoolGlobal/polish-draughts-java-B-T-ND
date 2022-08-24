@@ -6,6 +6,13 @@ import java.util.Scanner;
 public class Game {
     String abc = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     int boardLength;
+    Board board;
+
+    public Game() {
+        int boardSize = getValidBoardSize();
+        this.board = new Board(boardSize);
+        this.boardLength = boardSize;
+    }
 
     public int getValidBoardSize() {
         Scanner myVar = new Scanner(System.in);
@@ -69,10 +76,11 @@ public class Game {
         return false;
     }
 
-    public void playRound(String currentPlayer, Board board) {
+    public void playRound(String currentPlayer) {
         Pawn[][] fields = board.fields;
         int row;
         int col;
+        System.out.println(board.toString());
         Scanner myVar = new Scanner(System.in);
         System.out.println("It's " + currentPlayer + "'s turn! ");
         String userInput;
@@ -80,8 +88,8 @@ public class Game {
             System.out.println("Please choose a draught to move with: ");
             userInput = myVar.nextLine().toUpperCase();
             if (userInputValidation(userInput)) {
-                row = abc.indexOf(userInput.charAt(0));
-                col = Integer.parseInt(userInput.substring(1)) - 1;
+                col = abc.indexOf(userInput.charAt(0));
+                row = Integer.parseInt(userInput.substring(1)) - 1;
                 if (Objects.equals(fields[row][col].color, currentPlayer) && fields[row][col].canPawnMoveAnywhere(fields)) {
                     break;
                 }
@@ -94,8 +102,8 @@ public class Game {
             userInput = myVar.nextLine().toUpperCase();
             coordinatesPosition moveToPosition = new coordinatesPosition(0, 0);
             if (userInputValidation(userInput)) {
-                moveToPosition.x = abc.indexOf(userInput.charAt(0));
-                moveToPosition.y = Integer.parseInt(userInput.substring(1)) - 1;
+                moveToPosition.col = abc.indexOf(userInput.charAt(0));
+                moveToPosition.row = Integer.parseInt(userInput.substring(1)) - 1;
                 if (fields[row][col].validatePawnMove(fields, moveToPosition)) {
                     board.movePawn(new coordinatesPosition(row, col), moveToPosition);
                     break;
@@ -112,6 +120,13 @@ public class Game {
         } else if (Objects.equals(checkForWinner(fields), "tie")){
             System.out.println("It's a tie!");
             System.exit(0);
+        }
+    }
+
+    public void start(){
+        String currentPlayer = "white";
+        while (true){
+            playRound(currentPlayer);
         }
     }
 }
