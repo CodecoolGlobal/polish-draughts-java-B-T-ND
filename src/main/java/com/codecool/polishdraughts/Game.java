@@ -35,7 +35,7 @@ public class Game {
         return inputBoardSize;
     }
 
-    public String checkForWinner(Pawn[][] fields) {
+    public String checkForWinner(Pawn[][] fields, String currentPlayer) {
         int pawnsThatCanMove = 0;
         int white = 0;
         int whiteThatCanMove = 0;
@@ -60,7 +60,16 @@ public class Game {
                 }
             }
         }
-
+        // if the other player (currentPlayer) can't move and the !current player can, current player lost
+        if (currentPlayer.equals("white")){
+            if (whiteThatCanMove == 0) {
+                return "black";
+            }
+        } else if (currentPlayer.equals("black")){
+            if (blackThatCanMove == 0){
+                return "white";
+            }
+        }
         if (white == 0) {
             return "black";
         } else if (black == 0) {
@@ -91,7 +100,7 @@ public class Game {
         System.out.println("It's " + currentPlayer + "'s turn! ");
         String userInput;
         while (true) {
-            System.out.println("Please choose a draught to move with: ");
+            System.out.println("Please choose a piece to move with: ");
             userInput = myVar.nextLine().toUpperCase();
             if (userInputValidation(userInput)) {
                 col = abc.indexOf(userInput.charAt(0));
@@ -102,7 +111,7 @@ public class Game {
                     }
                 }
             }
-            System.out.println("Please choose a draught that's yours and can move!");
+            System.out.println("Please choose a piece that's yours and can move!");
         }
         System.out.println("Selected pawn at: " + userInput);
         while (true) {
@@ -119,13 +128,14 @@ public class Game {
             }
             System.out.println("Please choose a valid tile! ");
         }
-        if (Objects.equals(checkForWinner(fields), "white")) {
+        System.out.println(board);
+        if (Objects.equals(checkForWinner(fields, currentPlayer), "white")) {
             System.out.println("White won!");
             System.exit(0);
-        } else if (Objects.equals(checkForWinner(fields), "black")) {
+        } else if (Objects.equals(checkForWinner(fields, currentPlayer), "black")) {
             System.out.println("Black won!");
             System.exit(0);
-        } else if (Objects.equals(checkForWinner(fields), "tie")) {
+        } else if (Objects.equals(checkForWinner(fields, currentPlayer), "tie")) {
             System.out.println("It's a tie!");
             System.exit(0);
         }

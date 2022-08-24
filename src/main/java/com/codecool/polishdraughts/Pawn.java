@@ -12,10 +12,6 @@ public class Pawn {
 
     }
 
-    public String getColor() {
-        return color;
-    }
-
     @Override
     public String toString() {
         return "Pawn{" +
@@ -72,7 +68,7 @@ public class Pawn {
                 if (fields[startingPosition.row - 1][startingPosition.col + 1] == null) {
                     return true;
                 }
-            } else {
+            } else if (startingPosition.row - 1 >= 0 && startingPosition.col + 1 < fields.length) {
                 if (fields[startingPosition.row - 1][startingPosition.col + 1] == null ||
                         fields[startingPosition.row - 1][startingPosition.col - 1] == null) {
                     return true;
@@ -88,7 +84,7 @@ public class Pawn {
                 if (fields[startingPosition.row + 1][startingPosition.col + 1] == null) {
                     return true;
                 }
-            } else {
+            } else if (startingPosition.row + 1 < fields.length && startingPosition.col - 1 >= 0){
                 if (fields[startingPosition.row + 1][startingPosition.col + 1] == null ||
                         fields[startingPosition.row + 1][startingPosition.col - 1] == null) {
                     return true;
@@ -101,7 +97,7 @@ public class Pawn {
 
     public boolean validatePawnMove(Pawn[][] fields, coordinatesPosition moveToPosition) {
         coordinatesPosition startingPosition = this.coordinates;
-        // check if movetoPosition is 2 tiles away and these's an opposing piece between
+        // check if movetoPosition is 2 tiles away and there's an opposing piece between
         if ((startingPosition.row + 2 == moveToPosition.row && startingPosition.col + 2 == moveToPosition.col) &&
                 fields[startingPosition.row + 1][startingPosition.col + 1] != null &&
                 fields[startingPosition.row + 2][startingPosition.col + 2] == null) {
