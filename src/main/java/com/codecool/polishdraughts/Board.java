@@ -72,9 +72,9 @@ public class Board {
     }
 
     public void movePawn(coordinatesPosition startPosition, coordinatesPosition endPosition){
-        Pawn currentPawn = fields[startPosition.x][startPosition.y];
+        Pawn currentPawn = fields[startPosition.row][startPosition.col];
         currentPawn.coordinates = endPosition;
-        fields[endPosition.x][endPosition.y] = currentPawn;
-        removePawn(startPosition.x, startPosition.y);
+        fields[endPosition.row][endPosition.col] = currentPawn;
+        removePawn(startPosition.row, startPosition.col);
     }
 }
