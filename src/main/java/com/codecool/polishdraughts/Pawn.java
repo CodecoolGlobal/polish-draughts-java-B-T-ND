@@ -22,42 +22,45 @@ public class Pawn {
 
     public boolean canPawnMoveAnywhere(Pawn[][] fields) {
         coordinatesPosition startingPosition = this.coordinates;
-        if (canAttack(fields, startingPosition)){
+        if (canAttack(fields, startingPosition)) {
             return true;
         }
         // when white check if pawn can move diagonally one up
         if (Objects.equals(this.color, "white")) {
-            if (startingPosition.col == fields.length - 1) {
+            if (startingPosition.col == fields.length - 1 && startingPosition.row != 0) {
                 if (fields[startingPosition.row - 1][startingPosition.col - 1] == null) {
                     return true;
                 }
-            } else if (startingPosition.col == 0) {
+            } else if (startingPosition.col == 0 && startingPosition.row != 0) {
                 if (fields[startingPosition.row - 1][startingPosition.col + 1] == null) {
                     return true;
                 }
             } else if (startingPosition.row - 1 >= 0 && startingPosition.col + 1 < fields.length) {
-                if (fields[startingPosition.row - 1][startingPosition.col + 1] == null ||
-                        fields[startingPosition.row - 1][startingPosition.col - 1] == null) {
-                    return true;
+                if (startingPosition.row != 0) {
+                    if (fields[startingPosition.row - 1][startingPosition.col + 1] == null ||
+                            fields[startingPosition.row - 1][startingPosition.col - 1] == null) {
+                        return true;
+                    }
                 }
             }
             // when black check if pawn can move diagonally one down
         } else if (Objects.equals(this.color, "black")) {
-            if (startingPosition.col == fields.length - 1) {
+            if (startingPosition.col == fields.length - 1 && startingPosition.row != fields.length - 1) {
                 if (fields[startingPosition.row + 1][startingPosition.col - 1] == null) {
                     return true;
                 }
-            } else if (startingPosition.col == 0) {
+            } else if (startingPosition.col == 0 && startingPosition.row != fields.length - 1) {
                 if (fields[startingPosition.row + 1][startingPosition.col + 1] == null) {
                     return true;
                 }
-            } else if (startingPosition.row + 1 < fields.length && startingPosition.col - 1 >= 0){
-                if (fields[startingPosition.row + 1][startingPosition.col + 1] == null ||
-                        fields[startingPosition.row + 1][startingPosition.col - 1] == null) {
-                    return true;
+            } else if (startingPosition.row + 1 < fields.length && startingPosition.col - 1 >= 0) {
+                if (startingPosition.row != fields.length - 1) {
+                    if (fields[startingPosition.row + 1][startingPosition.col + 1] == null ||
+                            fields[startingPosition.row + 1][startingPosition.col - 1] == null) {
+                        return true;
+                    }
                 }
             }
-
         }
         return false;
     }
