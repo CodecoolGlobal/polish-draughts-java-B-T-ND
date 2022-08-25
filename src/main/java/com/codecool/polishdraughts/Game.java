@@ -149,22 +149,15 @@ public class Game {
                         moveToPosition.row = Integer.parseInt(userInput.substring(1)) - 1;
                         if (fields[row][col].validateAttackMove(fields, moveToPosition, new coordinatesPosition(row, col))) {
                             board.movePawn(new coordinatesPosition(row, col), moveToPosition);
-                            if (fields[moveToPosition.row][moveToPosition.col].canAttack(fields, new coordinatesPosition(row, col))) {
-                                continue;
-                            }
                         } else {
                             System.out.println("Please choose a valid tile!");
                             moveToPosition.col = col;
                             moveToPosition.row = row;
-                            continue;
                         }
                     }
-                    System.out.println("Please choose a valid tile! ");
-
                 } else {
                     break;
                 }
-
             }
         }
 

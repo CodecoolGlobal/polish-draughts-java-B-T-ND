@@ -31,7 +31,7 @@ public class Board {
             fields[5][3] = new Pawn("black", 5, 3);
             fields[3][5] = new Pawn("black", 3, 5);
             fields[2][6] = new Pawn("black", 2, 6);
-            fields[9][9] = new Pawn("black", 9, 9);
+//            fields[9][9] = new Pawn("black", 9, 9);
 
         } else if (mode == 2) {
             // winning case 1
