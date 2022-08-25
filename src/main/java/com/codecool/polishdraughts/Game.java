@@ -99,6 +99,7 @@ public class Game {
         Scanner myVar = new Scanner(System.in);
         System.out.println("It's " + currentPlayer + "'s turn! ");
         String userInput;
+        coordinatesPosition moveToPosition;
         while (true) {
             System.out.println("Please choose a piece to move with: ");
             userInput = myVar.nextLine().toUpperCase();
@@ -117,7 +118,7 @@ public class Game {
         while (true) {
             System.out.println("Please choose where to move: ");
             userInput = myVar.nextLine().toUpperCase();
-            coordinatesPosition moveToPosition = new coordinatesPosition(0, 0);
+            moveToPosition = new coordinatesPosition(0, 0);
             if (userInputValidation(userInput)) {
                 moveToPosition.col = abc.indexOf(userInput.charAt(0));
                 moveToPosition.row = Integer.parseInt(userInput.substring(1)) - 1;
@@ -128,6 +129,43 @@ public class Game {
             }
             System.out.println("Please choose a valid tile! ");
         }
+        int jumpLength = Math.abs(row - moveToPosition.row);
+        if (jumpLength == 2) {
+            while (true){
+                row = moveToPosition.row;
+                col = moveToPosition.col;
+                if (fields[row][col].canAttack(fields, new coordinatesPosition(row,col))){
+                    System.out.println(board);
+                    System.out.println(currentPlayer + ", you can take another piece!");
+                    System.out.println("Please choose where to move: ");
+                    userInput = myVar.nextLine().toUpperCase();
+                    moveToPosition = new coordinatesPosition(0, 0);
+                    if (userInputValidation(userInput)) {
+                        moveToPosition.col = abc.indexOf(userInput.charAt(0));
+                        moveToPosition.row = Integer.parseInt(userInput.substring(1)) - 1;
+                        if (fields[row][col].validateAttackMove(fields, moveToPosition, new coordinatesPosition(row,col))) {
+                            board.movePawn(new coordinatesPosition(row, col), moveToPosition);
+                            if (fields[row][col].canAttack(fields, new coordinatesPosition(row,col))){
+                                continue;
+                            }
+                            break;
+                        }
+                        else{
+                            System.out.println("Please choose a valid tile!");
+                            moveToPosition.col = col;
+                            moveToPosition.row = row;
+                            continue;
+                        }
+                    }
+                    System.out.println("Please choose a valid tile! ");
+
+                } else {
+                    break;
+                }
+
+            }
+        }
+
         System.out.println(board);
         if (Objects.equals(checkForWinner(fields, currentPlayer), "white")) {
             System.out.println("White won!");
