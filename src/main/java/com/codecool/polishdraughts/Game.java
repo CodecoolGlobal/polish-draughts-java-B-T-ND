@@ -8,10 +8,14 @@ public class Game {
     int boardLength;
     Board board;
 
-    public Game() {
+    public Game(int mode) {
         int boardSize = getValidBoardSize();
-        this.board = new Board(boardSize);
-        this.boardLength = boardSize;
+        if (mode != 0) {
+            this.boardLength = 10;
+        } else {
+            this.boardLength = boardSize;
+        }
+        this.board = new Board(this.boardLength, mode);
     }
 
     public int getValidBoardSize() {
@@ -24,8 +28,7 @@ public class Game {
                 if (inputBoardSize >= 10 && inputBoardSize <= 20) {
                     break;
                 }
-            }
-            catch (Exception e){
+            } catch (Exception e) {
                 System.out.println("Please choose a NUMBER between 10 and 20!");
                 continue;
             }
@@ -60,22 +63,23 @@ public class Game {
                 }
             }
         }
-        // if the other player (currentPlayer) can't move and the !current player can, current player lost
-        if (currentPlayer.equals("white")){
-            if (whiteThatCanMove == 0) {
-                return "black";
-            }
-        } else if (currentPlayer.equals("black")){
-            if (blackThatCanMove == 0){
-                return "white";
-            }
-        }
+
         if (white == 0) {
             return "black";
         } else if (black == 0) {
             return "white";
         } else if (pawnsThatCanMove == 0) {
             return "tie";
+        }
+        // if the other player (currentPlayer) can't move and the !current player can, current player lost
+        if (currentPlayer.equals("white")) {
+            if (whiteThatCanMove == 0) {
+                return "black";
+            }
+        } else if (currentPlayer.equals("black")) {
+            if (blackThatCanMove == 0) {
+                return "white";
+            }
         }
         return "none";
     }
@@ -131,10 +135,10 @@ public class Game {
         }
         int jumpLength = Math.abs(row - moveToPosition.row);
         if (jumpLength == 2) {
-            while (true){
+            while (true) {
                 row = moveToPosition.row;
                 col = moveToPosition.col;
-                if (fields[row][col].canAttack(fields, new coordinatesPosition(row,col))){
+                if (fields[row][col].canAttack(fields, new coordinatesPosition(row, col))) {
                     System.out.println(board);
                     System.out.println(currentPlayer + ", you can take another piece!");
                     System.out.println("Please choose where to move: ");
@@ -143,14 +147,13 @@ public class Game {
                     if (userInputValidation(userInput)) {
                         moveToPosition.col = abc.indexOf(userInput.charAt(0));
                         moveToPosition.row = Integer.parseInt(userInput.substring(1)) - 1;
-                        if (fields[row][col].validateAttackMove(fields, moveToPosition, new coordinatesPosition(row,col))) {
+                        if (fields[row][col].validateAttackMove(fields, moveToPosition, new coordinatesPosition(row, col))) {
                             board.movePawn(new coordinatesPosition(row, col), moveToPosition);
-                            if (fields[row][col].canAttack(fields, new coordinatesPosition(row,col))){
+                            if (fields[row][col].canAttack(fields, new coordinatesPosition(row, col))) {
                                 continue;
                             }
                             break;
-                        }
-                        else{
+                        } else {
                             System.out.println("Please choose a valid tile!");
                             moveToPosition.col = col;
                             moveToPosition.row = row;

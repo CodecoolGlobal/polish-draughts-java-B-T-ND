@@ -8,17 +8,61 @@ public class Board {
 
     private final Hashtable<String, String> translateBoardDict;
 
-    public Board(int n) {
+    public Board(int n, int mode) {
         fields = new Pawn[n][n];
-        int numberOfPawns = 2 * n;
-        for (int x = 0; x < n; x++) {
-            for (int y = 0; y < n; y++) {
-                if ((x + y) % 2 == 1 && numberOfPawns > 0) {
-                    fields[x][y] = new Pawn("black", x, y);
-                    fields[n - x - 1][n - y - 1] = new Pawn("white", n - x - 1, n - y - 1);
-                    numberOfPawns--;
+        if (mode == 0) {
+            // default
+            int numberOfPawns = 2 * n;
+            for (int x = 0; x < n; x++) {
+                for (int y = 0; y < n; y++) {
+                    if ((x + y) % 2 == 1 && numberOfPawns > 0) {
+                        fields[x][y] = new Pawn("black", x, y);
+                        fields[n - x - 1][n - y - 1] = new Pawn("white", n - x - 1, n - y - 1);
+                        numberOfPawns--;
+                    }
                 }
             }
+        } else if (mode == 1) {
+            //multiple takedown case
+            fields[0][0] = new Pawn("black", 0, 0);
+            fields[1][1] = new Pawn("white", 1, 1);
+            fields[3][3] = new Pawn("white", 3, 3);
+            fields[5][5] = new Pawn("white", 5, 5);
+            fields[1][5] = new Pawn("white", 1, 5);
+            fields[3][5] = new Pawn("white", 3, 5);
+            fields[2][6] = new Pawn("white", 2, 6);
+            fields[9][9] = new Pawn("white", 9, 9);
+
+        } else if (mode == 2) {
+            // winning case 1
+            fields[4][4] = new Pawn("black", 4, 4);
+            fields[5][5] = new Pawn("white", 5, 5);
+
+        } else if (mode == 3) {
+            // winning case 2
+            fields[4][0] = new Pawn("black", 4, 0);
+            fields[4][2] = new Pawn("black", 4, 2);
+            fields[4][4] = new Pawn("black", 4, 4);
+            fields[4][6] = new Pawn("black", 4, 6);
+            fields[4][8] = new Pawn("black", 4, 8);
+            fields[3][1] = new Pawn("black", 3, 1);
+            fields[3][3] = new Pawn("black", 3, 3);
+            fields[3][5] = new Pawn("black", 3, 5);
+            fields[3][7] = new Pawn("black", 3, 7);
+            fields[3][9] = new Pawn("black", 3, 9);
+
+            fields[5][1] = new Pawn("white", 5, 1);
+            fields[5][3] = new Pawn("white", 5, 3);
+            fields[5][5] = new Pawn("white", 5, 5);
+            fields[5][7] = new Pawn("white", 5, 7);
+            fields[5][9] = new Pawn("white", 5, 9);
+            fields[6][0] = new Pawn("white", 6, 0);
+            fields[6][2] = new Pawn("white", 6, 2);
+            fields[6][4] = new Pawn("white", 6, 4);
+            fields[6][6] = new Pawn("white", 6, 6);
+            fields[6][8] = new Pawn("white", 6, 8);
+            fields[8][8] = new Pawn("white", 6, 8);
+
         }
         translateBoardDict = new Hashtable<>();
         if (System.getProperty("os.name").equals("Mac OS X")) {
