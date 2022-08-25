@@ -149,10 +149,9 @@ public class Game {
                         moveToPosition.row = Integer.parseInt(userInput.substring(1)) - 1;
                         if (fields[row][col].validateAttackMove(fields, moveToPosition, new coordinatesPosition(row, col))) {
                             board.movePawn(new coordinatesPosition(row, col), moveToPosition);
-                            if (fields[row][col].canAttack(fields, new coordinatesPosition(row, col))) {
+                            if (fields[moveToPosition.row][moveToPosition.col].canAttack(fields, new coordinatesPosition(row, col))) {
                                 continue;
                             }
-                            break;
                         } else {
                             System.out.println("Please choose a valid tile!");
                             moveToPosition.col = col;

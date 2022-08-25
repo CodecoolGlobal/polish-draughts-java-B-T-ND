@@ -24,14 +24,14 @@ public class Board {
             }
         } else if (mode == 1) {
             //multiple takedown case
-            fields[0][0] = new Pawn("black", 0, 0);
-            fields[1][1] = new Pawn("white", 1, 1);
-            fields[3][3] = new Pawn("white", 3, 3);
-            fields[5][5] = new Pawn("white", 5, 5);
-            fields[1][5] = new Pawn("white", 1, 5);
-            fields[3][5] = new Pawn("white", 3, 5);
-            fields[2][6] = new Pawn("white", 2, 6);
-            fields[9][9] = new Pawn("white", 9, 9);
+            fields[0][0] = new Pawn("white", 0, 0);
+            fields[1][1] = new Pawn("black", 1, 1);
+            fields[3][3] = new Pawn("black", 3, 3);
+            fields[5][5] = new Pawn("black", 5, 5);
+            fields[5][3] = new Pawn("black", 5, 3);
+            fields[3][5] = new Pawn("black", 3, 5);
+            fields[2][6] = new Pawn("black", 2, 6);
+            fields[9][9] = new Pawn("black", 9, 9);
 
         } else if (mode == 2) {
             // winning case 1
@@ -61,7 +61,7 @@ public class Board {
             fields[6][4] = new Pawn("white", 6, 4);
             fields[6][6] = new Pawn("white", 6, 6);
             fields[6][8] = new Pawn("white", 6, 8);
-            fields[8][8] = new Pawn("white", 6, 8);
+            fields[8][8] = new Pawn("white", 8, 8);
 
         }
         translateBoardDict = new Hashtable<>();
