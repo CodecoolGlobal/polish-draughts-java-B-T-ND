@@ -4,6 +4,8 @@ import java.util.Objects;
 
 public class Pawn {
     String color;
+
+    boolean isCrowned;
     coordinatesPosition coordinates;
 
     public void setColor(String color) {
@@ -16,6 +18,7 @@ public class Pawn {
 
     public Pawn(String color, Integer row, Integer col) {
         setColor(color);
+        this.isCrowned = false;
         this.coordinates = new coordinatesPosition(row, col);
 
     }
@@ -28,7 +31,7 @@ public class Pawn {
                 '}';
     }
 
-    public boolean canPawnMoveOneTo(Pawn[][] fields, coordinatesPosition vector) {
+    public boolean canPawnMoveOneInDirection(Pawn[][] fields, coordinatesPosition vector) {
         coordinatesPosition startingPosition = this.coordinates;
         if ((startingPosition.col + vector.col < fields.length && startingPosition.col + vector.col >= 0) &&
                 (startingPosition.row + vector.row < fields.length && startingPosition.row + vector.row >= 0)) {
@@ -44,59 +47,64 @@ public class Pawn {
         }
         // when white check if pawn can move diagonally one up
         if (Objects.equals(this.getColor(), "white")) {
-            if (canPawnMoveOneTo(fields, new coordinatesPosition(-1, -1))) {
+            if (canPawnMoveOneInDirection(fields, new coordinatesPosition(-1, -1))) {
                 return true;
-            } else if (canPawnMoveOneTo(fields, new coordinatesPosition(-1, 1))) {
+            } else if (canPawnMoveOneInDirection(fields, new coordinatesPosition(-1, 1))) {
                 return true;
             }
         }
         // when black check if pawn can move diagonally one down
         else if (Objects.equals(this.getColor(), "black")) {
-            if (canPawnMoveOneTo(fields, new coordinatesPosition(1, -1))) {
+            if (canPawnMoveOneInDirection(fields, new coordinatesPosition(1, -1))) {
                 return true;
-            } else if (canPawnMoveOneTo(fields, new coordinatesPosition(1, 1))) {
+            } else if (canPawnMoveOneInDirection(fields, new coordinatesPosition(1, 1))) {
                 return true;
             }
         }
         return false;
     }
 
+    public boolean canAttackInDirectionOf(Pawn[][] fields, coordinatesPosition vector) {
+        boolean isCrowned = this.isCrowned;
+        String color = this.getColor();
+        coordinatesPosition startingPosition = this.coordinates;
+        coordinatesPosition normalisedVector = new coordinatesPosition(vector.row / Math.abs(vector.row), vector.col / Math.abs(vector.col))
+        // if on board
+        if (startingPosition.row + vector.row < fields.length && startingPosition.row + vector.row >= 0 &&
+                startingPosition.col + vector.col < fields.length && startingPosition.col + vector.col >= 0) {
+            // if moveto tile is null
+            if (fields[startingPosition.row + vector.row][startingPosition.col + vector.col] == null) {
+                for (int i = 1; i < Math.abs(vector.row); i++) {
+                    Pawn iThFieldBetweenTheTwoPositions = fields[startingPosition.row + (i * normalisedVector.row)][startingPosition.col + (i * normalisedVector.col)];
+                    if (iThFieldBetweenTheTwoPositions != null) {
+                        // if not null, check if the color is the same, if yes, the pawn cant move there
+                        if (Objects.equals(iThFieldBetweenTheTwoPositions.getColor(), color)) {
+                            return false;
+                        }
+                    } else if (!isCrowned) {
+                        if (Math.abs(vector.row) == 2) {
+                            // if it's null and the given vector is 2, return false, bc there has to be one
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
     public boolean canAttack(Pawn[][] fields, coordinatesPosition startingPosition) {
-        if (startingPosition.row + 2 < fields.length && startingPosition.col + 2 < fields.length) {
-            if (fields[startingPosition.row + 2][startingPosition.col + 2] == null) {
-                if (fields[startingPosition.row + 1][startingPosition.col + 1] != null) {
-                    if (!Objects.equals(fields[startingPosition.row + 1][startingPosition.col + 1].getColor(), this.getColor())) {
-                        return true;
-                    }
-                }
-            }
+        if (canAttackInDirectionOf(fields, new coordinatesPosition(2, 2))) {
+            return true;
         }
-        if (startingPosition.row - 2 >= 0 && startingPosition.col + 2 < fields.length) {
-            if (fields[startingPosition.row - 2][startingPosition.col + 2] == null) {
-                if (fields[startingPosition.row - 1][startingPosition.col + 1] != null) {
-                    if (!Objects.equals(fields[startingPosition.row - 1][startingPosition.col + 1].getColor(), this.getColor())) {
-                        return true;
-                    }
-                }
-            }
+        if (canAttackInDirectionOf(fields, new coordinatesPosition(-2, 2))) {
+            return true;
         }
-        if (startingPosition.row + 2 < fields.length && startingPosition.col - 2 >= 0) {
-            if (fields[startingPosition.row + 2][startingPosition.col - 2] == null) {
-                if (fields[startingPosition.row + 1][startingPosition.col - 1] != null) {
-                    if (!Objects.equals(fields[startingPosition.row + 1][startingPosition.col - 1].getColor(), this.getColor())) {
-                        return true;
-                    }
-                }
-            }
+        if (canAttackInDirectionOf(fields, new coordinatesPosition(2, -2))) {
+            return true;
         }
-        if (startingPosition.row - 2 >= 0 && startingPosition.col - 2 >= 0) {
-            if (fields[startingPosition.row - 2][startingPosition.col - 2] == null) {
-                if (fields[startingPosition.row - 1][startingPosition.col - 1] != null) {
-                    if (!Objects.equals(fields[startingPosition.row - 1][startingPosition.col - 1].getColor(), this.getColor())) {
-                        return true;
-                    }
-                }
-            }
+        if (canAttackInDirectionOf(fields, new coordinatesPosition(-2, -2))) {
+            return true;
         }
         return false;
     }
