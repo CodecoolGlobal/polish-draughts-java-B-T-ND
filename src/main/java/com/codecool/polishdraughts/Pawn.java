@@ -32,6 +32,12 @@ public class Pawn {
     }
 
     public boolean canPawnMoveOneInDirection(Pawn[][] fields, coordinatesPosition vector) {
+        String color = this.getColor();
+        if (Objects.equals(color, "white") && vector.row > 0) {
+            return false;
+        } else if (Objects.equals(color, "white") && vector.row < 0) {
+            return false;
+        }
         coordinatesPosition startingPosition = this.coordinates;
         if ((startingPosition.col + vector.col < fields.length && startingPosition.col + vector.col >= 0) &&
                 (startingPosition.row + vector.row < fields.length && startingPosition.row + vector.row >= 0)) {
@@ -111,27 +117,13 @@ public class Pawn {
 
     public boolean validatePawnMove(Pawn[][] fields, coordinatesPosition moveToPosition) {
         coordinatesPosition startingPosition = this.coordinates;
+        coordinatesPosition vector = new coordinatesPosition(moveToPosition.row - startingPosition.row, moveToPosition.col - startingPosition.col);
         // check if movetoPosition is 2 tiles away and there's an opposing piece between
-        if (validateAttackMove(fields, moveToPosition, startingPosition)) return true;
-
-
-        // when black check if pawn can move diagonally one up
-        if (Objects.equals(this.getColor(), "white")) {
-            if ((startingPosition.row - 1 == moveToPosition.row &&
-                    (startingPosition.col - 1 == moveToPosition.col ||
-                            startingPosition.col + 1 == moveToPosition.col) &&
-                    fields[moveToPosition.row][moveToPosition.col] == null)) {
-                return true;
-            }
-            // when white check if pawn can move diagonally one down
-        } else if (Objects.equals(this.getColor(), "black")) {
-            if ((startingPosition.row + 1 == moveToPosition.row &&
-                    (startingPosition.col - 1 == moveToPosition.col ||
-                            startingPosition.col + 1 == moveToPosition.col) &&
-                    fields[moveToPosition.row][moveToPosition.col] == null)) {
-                return true;
-            }
-
+        if (validateAttackMove(fields, moveToPosition, startingPosition)){
+            return true;
+        }
+        if (canPawnMoveOneInDirection(fields, vector)) {
+            return true;
         }
         return false;
     }
