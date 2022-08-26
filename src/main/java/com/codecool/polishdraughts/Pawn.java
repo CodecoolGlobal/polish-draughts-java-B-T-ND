@@ -68,7 +68,7 @@ public class Pawn {
         boolean isCrowned = this.isCrowned;
         String color = this.getColor();
         coordinatesPosition startingPosition = this.coordinates;
-        coordinatesPosition normalisedVector = new coordinatesPosition(vector.row / Math.abs(vector.row), vector.col / Math.abs(vector.col))
+        coordinatesPosition normalisedVector = new coordinatesPosition(vector.row / Math.abs(vector.row), vector.col / Math.abs(vector.col));
         // if on board
         if (startingPosition.row + vector.row < fields.length && startingPosition.row + vector.row >= 0 &&
                 startingPosition.col + vector.col < fields.length && startingPosition.col + vector.col >= 0) {
