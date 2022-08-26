@@ -28,6 +28,15 @@ public class Pawn {
                 '}';
     }
 
+    public boolean canPawnMoveOneTo(Pawn[][] fields, coordinatesPosition vector) {
+        coordinatesPosition startingPosition = this.coordinates;
+        if ((startingPosition.col + vector.col < fields.length && startingPosition.col + vector.col >= 0) &&
+                (startingPosition.row + vector.row < fields.length && startingPosition.row + vector.row >= 0)) {
+            return fields[startingPosition.row + vector.row][startingPosition.col + vector.col] == null;
+        }
+        return false;
+    }
+
     public boolean canPawnMoveAnywhere(Pawn[][] fields) {
         coordinatesPosition startingPosition = this.coordinates;
         if (canAttack(fields, startingPosition)) {
@@ -35,39 +44,18 @@ public class Pawn {
         }
         // when white check if pawn can move diagonally one up
         if (Objects.equals(this.getColor(), "white")) {
-            if (startingPosition.col == fields.length - 1 && startingPosition.row != 0) {
-                if (fields[startingPosition.row - 1][startingPosition.col - 1] == null) {
-                    return true;
-                }
-            } else if (startingPosition.col == 0 && startingPosition.row != 0) {
-                if (fields[startingPosition.row - 1][startingPosition.col + 1] == null) {
-                    return true;
-                }
-            } else if (startingPosition.row - 1 >= 0 && startingPosition.col + 1 < fields.length) {
-                if (startingPosition.row != 0) {
-                    if (fields[startingPosition.row - 1][startingPosition.col + 1] == null ||
-                            fields[startingPosition.row - 1][startingPosition.col - 1] == null) {
-                        return true;
-                    }
-                }
+            if (canPawnMoveOneTo(fields, new coordinatesPosition(-1, -1))) {
+                return true;
+            } else if (canPawnMoveOneTo(fields, new coordinatesPosition(-1, 1))) {
+                return true;
             }
-            // when black check if pawn can move diagonally one down
-        } else if (Objects.equals(this.getColor(), "black")) {
-            if (startingPosition.col == fields.length - 1 && startingPosition.row != fields.length - 1) {
-                if (fields[startingPosition.row + 1][startingPosition.col - 1] == null) {
-                    return true;
-                }
-            } else if (startingPosition.col == 0 && startingPosition.row != fields.length - 1) {
-                if (fields[startingPosition.row + 1][startingPosition.col + 1] == null) {
-                    return true;
-                }
-            } else if (startingPosition.row + 1 < fields.length && startingPosition.col - 1 >= 0) {
-                if (startingPosition.row != fields.length - 1) {
-                    if (fields[startingPosition.row + 1][startingPosition.col + 1] == null ||
-                            fields[startingPosition.row + 1][startingPosition.col - 1] == null) {
-                        return true;
-                    }
-                }
+        }
+        // when black check if pawn can move diagonally one down
+        else if (Objects.equals(this.getColor(), "black")) {
+            if (canPawnMoveOneTo(fields, new coordinatesPosition(1, -1))) {
+                return true;
+            } else if (canPawnMoveOneTo(fields, new coordinatesPosition(1, 1))) {
+                return true;
             }
         }
         return false;
