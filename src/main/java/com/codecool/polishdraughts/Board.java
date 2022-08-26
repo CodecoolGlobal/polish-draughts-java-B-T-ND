@@ -104,9 +104,9 @@ public class Board {
                 if (fields[rowIndex][col] == null) {
                     boardToPrint.append(translateBoardDict.get("null")).append("  ");
                 } else {
-                    if (Objects.equals(fields[rowIndex][col].color, "black")) {
+                    if (Objects.equals(fields[rowIndex][col].getColor(), "black")) {
                         boardToPrint.append(translateBoardDict.get("black"));
-                    } else if (Objects.equals(fields[rowIndex][col].color, "white")) {
+                    } else if (Objects.equals(fields[rowIndex][col].getColor(), "white")) {
                         boardToPrint.append(translateBoardDict.get("white"));
                     }
                     if (Objects.equals(osName, "Mac OS X")) {

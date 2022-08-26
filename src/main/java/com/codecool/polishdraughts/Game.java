@@ -47,14 +47,14 @@ public class Game {
         for (int row = 0; row < fields.length; row++) {
             for (int col = 0; col < fields.length; col++) {
                 if (fields[row][col] != null) {
-                    if (Objects.equals(fields[row][col].color, "white")) {
+                    if (Objects.equals(fields[row][col].getColor(), "white")) {
                         white++;
                     } else {
                         black++;
                     }
                     if (fields[row][col].canPawnMoveAnywhere(fields)) {
                         pawnsThatCanMove++;
-                        if (Objects.equals(fields[row][col].color, "white")) {
+                        if (Objects.equals(fields[row][col].getColor(), "white")) {
                             whiteThatCanMove++;
                         } else {
                             blackThatCanMove++;
@@ -111,7 +111,7 @@ public class Game {
                 col = abc.indexOf(userInput.charAt(0));
                 row = Integer.parseInt(userInput.substring(1)) - 1;
                 if (fields[row][col] != null) {
-                    if (Objects.equals(fields[row][col].color, currentPlayer) && fields[row][col].canPawnMoveAnywhere(fields)) {
+                    if (Objects.equals(fields[row][col].getColor(), currentPlayer) && fields[row][col].canPawnMoveAnywhere(fields)) {
                         break;
                     }
                 }
